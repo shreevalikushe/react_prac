@@ -1,0 +1,11 @@
+.image{
+    width: 300px;
+    height: 300px;
+}
+.mainDiv{
+    width: 500px;
+}
+.btn{
+    background-color: green;
+    color: white;
+}
