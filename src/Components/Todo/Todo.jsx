@@ -1,35 +1,33 @@
 import { useState } from "react"
 import TodoInput from "./TodoInput"
-import TodoItem from "./TodoItem"
+import TodoList from "./TodoList";
+import TodoItem from "./TodoList"
 
 function Todo() {
-    const [todos, setTodos] = useState([
-        {
-            id: 1,
-            title: "DEFAULT",
-            status: false
-        }
-    ])
-    const handleTaskCreate = (title) => {
+    const [list, setList] = useState([]);
+    const [showCompleted, setshowCompleted] = useState(false)
+
+    const handleSubmit = ({ title, description }) => {
         const payload = {
-            title: title,
-            status: false,
-            id: todos.length + 1
+            id: title.length + 1,
+            title,
+            description,
+            status: list.length % 2 === 0 ? true : false
         };
-        console.log(payload)
-        setTodos([...todos, payload]);
+        setList([...list, payload])
     }
-    return (
-        <>
-            <h3>Todo List</h3>
-            <TodoInput onTaskCreate={handleTaskCreate} />
-            {todos.map((item) => {
-                return (
-                    <TodoItem key={item.id} title={item.title} status = {item.status} />
-                )
-            })}
-        </>
-    );
+    return(
+        <div>
+            <TodoInput onSubmit = {handleSubmit}/>
+            <TodoList data={list.filter((item)=> !item.status)}/>
+            <div>
+                <button onClick={()=> setshowCompleted(!showCompleted)}>
+                    Toggle to see completed
+                </button>
+            </div>
+            {showCompleted && <TodoList data={list.filter((item)=> item.status)}/>}
+        </div>
+    )
 }
 
 export default Todo
